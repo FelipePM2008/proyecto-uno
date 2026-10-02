@@ -1,0 +1,28 @@
+<?php
+
+namespace Database\Factories;
+
+use App\Models\Provider;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+/**
+ * @extends Factory<Provider>
+ */
+class ProviderFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
+    {
+        return [
+            'nit' => fake()->unique()->numerify('#########-#'),
+            'name' => fake()->company(),
+            'phone' => fake()->phoneNumber(),
+            'email' => fake()->companyEmail(),
+            'address' => fake()->address(),
+        ];
+    }
+}
