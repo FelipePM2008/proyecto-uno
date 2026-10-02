@@ -12,7 +12,7 @@ class ProviderController extends Controller
      */
     public function index()
     {
-        //
+        return view('providers.index');
     }
 
     /**
