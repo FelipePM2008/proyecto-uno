@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Movement;
 use App\Notifications\StockProduct;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -84,6 +85,15 @@ class MovementController extends Controller
     {
         //
     }
+
+    public function pdf(Movement $movement)
+{
+    $movement->load('product');
+
+    $pdf = Pdf::loadView('movements.pdf', compact('movement'));
+
+    return $pdf->stream('movimiento-' . $movement->id . '.pdf');
+}
 
     /**
      * Show the form for editing the specified resource.

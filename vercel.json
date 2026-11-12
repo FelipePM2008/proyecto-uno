@@ -1,0 +1,25 @@
+import pandas as pd
+from sqlalchemy import create_engine
+
+# MySQL local
+mysql_uri = 'mysql+pymysql://usuario_mysql:password_mysql@localhost:3306/nombre_db_mysql'
+
+# Supabase (PostgreSQL) - Usa la URI de conexión directa de Supabase
+postgres_uri = 'postgresql://postgres.tu_ref_proyecto:tu_password_supabase@aws-0-region.pooler.supabase.com:6543/postgres'
+
+mysql_engine = create_engine(mysql_uri)
+pg_engine = create_engine(postgres_uri)
+
+tablas = ['areas', 'usuarios', 'otra_tabla'] # Reemplaza con tus nombres de tablas reales
+
+for tabla in tablas:
+    print(f"Migrando tabla: {tabla}...")
+    try:
+        # Lee los datos de MySQL en un DataFrame
+        df = pd.read_sql(f"SELECT * FROM {tabla}", mysql_engine)
+
+        # Escribe los datos en Supabase (reemplaza o adjunta)
+        df.to_sql(tabla, pg_engine, if_exists='append', index=False)
+        print(f"¡Tabla {tabla} migrada con éxito!")
+    except Exception as e:
+        print(f"Error al migrar la tabla {tabla}: {e}")
